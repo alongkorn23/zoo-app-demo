@@ -14,5 +14,13 @@ Content-Type: application/json
   "species": "Dog"
 }
 
+### Feed Animal by Id
+PUT http://localhost:8080/zoo/feed/animal/9cb32e1f-7fb2-47ad-8ae4-3e94759f9ede
+Content-Type: application/json
+
+{
+  "foodWeight": 10.5
+}
+
 ### DELETE Animal by Id
-DELETE http://localhost:8080/zoo/animal/303fac21-2e96-49bc-a3a2-2eb56a10bf9e
+DELETE http://localhost:8080/zoo/animal/c6f8acaa-a47a-4305-bea8-5e32ef18b6c0

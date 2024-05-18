@@ -3,6 +3,7 @@ package demo.zooapp.service;
 import demo.zooapp.api.dto.AnimalRequest;
 import demo.zooapp.domain.Animal;
 import demo.zooapp.entity.AnimalEntity;
+import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.repository.ZooRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,16 @@ public class ZooManagementServiceImpl implements ZooManagementService {
     @Transactional
     public void deleteAnimalById(UUID id) {
         zooRepository.deleteById(id);
+    }
+
+    @Override
+    public Animal feedAnimal(UUID id, double foodWeight) throws AnimalNotFoundException {
+        AnimalEntity animalEntity = zooRepository.findById(id).orElseThrow(() ->
+                new AnimalNotFoundException(String.format("Animal with id %s not found", id)));
+        double newWeight = animalEntity.getWeight() + foodWeight;
+        animalEntity.setWeight(newWeight);
+        AnimalEntity updatedAnimalEntity = zooRepository.save(animalEntity);
+        return Animal.from(updatedAnimalEntity);
     }
 
     private AnimalEntity saveAnimal(AnimalRequest animalRequest) {

@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping("/zoo")
 public class ZooManagementController {
 
-    private static final Logger logger = LoggerFactory.getLogger(ZooManagementServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ZooManagementController.class);
 
     private final ZooManagementService zooManagementService;
 

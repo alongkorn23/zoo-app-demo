@@ -6,6 +6,7 @@ import demo.zooapp.entity.AnimalEntity;
 import demo.zooapp.repository.ZooRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,14 +28,16 @@ public class ZooManagementServiceImpl implements ZooManagementService {
     }
 
     @Override
+    @Transactional
     public Animal createAnimal(AnimalRequest animalRequest) {
         AnimalEntity createdAnimalEntity = saveAnimal(animalRequest);
         return Animal.from(createdAnimalEntity);
     }
 
     @Override
+    @Transactional
     public void deleteAnimalById(UUID id) {
-
+        zooRepository.deleteById(id);
     }
 
     private AnimalEntity saveAnimal(AnimalRequest animalRequest) {

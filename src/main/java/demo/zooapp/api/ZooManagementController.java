@@ -6,10 +6,12 @@ import demo.zooapp.domain.Animal;
 import demo.zooapp.service.ZooManagementService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/zoo")
@@ -33,5 +35,11 @@ public class ZooManagementController {
     ResponseEntity<AnimalResponse> createAnimal(@RequestBody @Valid AnimalRequest animalRequest) {
         Animal animal = zooManagementService.createAnimal(animalRequest);
         return ResponseEntity.ok(AnimalResponse.from(animal));
+    }
+
+    @DeleteMapping("/animal/{id}")
+    ResponseEntity<HttpStatus> deleteAnimal(@PathVariable UUID id) {
+        zooManagementService.deleteAnimalById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

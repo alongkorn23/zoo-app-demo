@@ -2,14 +2,17 @@
 GET http://localhost:8080/zoo/animals
 
 ### POST Animal
-POST localhost:8080/zoo/animal
+POST http://localhost:8080/zoo/animal
 Content-Type: application/json
 
 {
-  "name": "Test1",
+  "name": "MyDog",
   "weight": 30,
   "ageInYear": 10,
-  "color": "white",
+  "color": "Black",
   "gender": "male",
   "species": "Dog"
 }
+
+### DELETE Animal by Id
+DELETE http://localhost:8080/zoo/animal/303fac21-2e96-49bc-a3a2-2eb56a10bf9e

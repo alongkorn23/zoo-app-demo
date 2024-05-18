@@ -13,7 +13,7 @@ public interface ZooManagementService {
 
     Animal createAnimal(AnimalRequest animalRequest);
 
-    void deleteAnimalById(UUID id);
+    void deleteAnimalById(UUID id) throws AnimalNotFoundException;
 
     Animal feedAnimal(UUID id, double foodWeight) throws AnimalNotFoundException;
 }

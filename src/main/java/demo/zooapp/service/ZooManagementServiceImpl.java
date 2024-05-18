@@ -37,8 +37,12 @@ public class ZooManagementServiceImpl implements ZooManagementService {
 
     @Override
     @Transactional
-    public void deleteAnimalById(UUID id) {
-        zooRepository.deleteById(id);
+    public void deleteAnimalById(UUID id) throws AnimalNotFoundException {
+        if (zooRepository.existsById(id)) {
+            zooRepository.deleteById(id);
+        } else {
+            throw new AnimalNotFoundException(String.format("Animal with id %s not found", id));
+        }
     }
 
     @Override

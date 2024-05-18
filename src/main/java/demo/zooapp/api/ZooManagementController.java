@@ -59,7 +59,13 @@ public class ZooManagementController {
 
     @DeleteMapping("/animal/{id}")
     ResponseEntity<HttpStatus> deleteAnimal(@PathVariable UUID id) {
-        zooManagementService.deleteAnimalById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        try {
+            zooManagementService.deleteAnimalById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (AnimalNotFoundException e) {
+            String errorMessage = String.format("Could not delete animal. Cause: %s", e.getMessage());
+            logger.error(errorMessage);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

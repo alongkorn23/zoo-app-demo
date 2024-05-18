@@ -1,12 +1,13 @@
 package demo.zooapp.api;
 
+import demo.zooapp.api.dto.AnimalRequest;
 import demo.zooapp.api.dto.AnimalResponse;
+import demo.zooapp.domain.Animal;
 import demo.zooapp.service.ZooManagementService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +24,14 @@ public class ZooManagementController {
 
     @GetMapping("/animals")
     ResponseEntity<List<AnimalResponse>> getAnimals() {
-        List<AnimalResponse> animals = zooManagementService.getAllAnimals();
-        return ResponseEntity.ok(animals);
+        List<Animal> animals = zooManagementService.getAnimals();
+        List<AnimalResponse> animalResponse = animals.stream().map(AnimalResponse::from).toList();
+        return ResponseEntity.ok(animalResponse);
     }
 
+    @PostMapping("/animal")
+    ResponseEntity<AnimalResponse> createAnimal(@RequestBody @Valid AnimalRequest animalRequest) {
+        Animal animal = zooManagementService.createAnimal(animalRequest);
+        return ResponseEntity.ok(AnimalResponse.from(animal));
+    }
 }

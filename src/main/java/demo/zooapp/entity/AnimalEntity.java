@@ -19,17 +19,24 @@ public class AnimalEntity {
     double weight;
 
     @Column(nullable = false)
-    int age;
+    int ageInYear;
 
     @Column(nullable = false)
     String color;
 
-    public AnimalEntity(UUID id, String name, double weight, int age, String color) {
-        this.id = id;
+    @Column(nullable = false)
+    String gender;
+
+    @Column(nullable = false)
+    String species;
+
+    public AnimalEntity(String name, double weight, int ageInYear, String color, String gender, String species) {
         this.name = name;
         this.weight = weight;
-        this.age = age;
+        this.ageInYear = ageInYear;
         this.color = color;
+        this.gender = gender;
+        this.species = species;
     }
 
     public AnimalEntity() {
@@ -60,12 +67,12 @@ public class AnimalEntity {
         this.weight = weight;
     }
 
-    public int getAge() {
-        return age;
+    public int getAgeInYear() {
+        return ageInYear;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAgeInYear(int ageInYear) {
+        this.ageInYear = ageInYear;
     }
 
     public String getColor() {
@@ -76,14 +83,32 @@ public class AnimalEntity {
         this.color = color;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
     @Override
     public String toString() {
-        return "ZooEntity{" +
+        return "AnimalEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
-                ", age=" + age +
+                ", ageInYear=" + ageInYear +
                 ", color='" + color + '\'' +
+                ", gender='" + gender + '\'' +
+                ", species='" + species + '\'' +
                 '}';
     }
 }

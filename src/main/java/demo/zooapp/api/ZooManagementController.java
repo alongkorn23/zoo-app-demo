@@ -6,7 +6,6 @@ import demo.zooapp.api.dto.FeedAnimalRequest;
 import demo.zooapp.domain.Animal;
 import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.service.ZooManagementService;
-import demo.zooapp.service.ZooManagementServiceImpl;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

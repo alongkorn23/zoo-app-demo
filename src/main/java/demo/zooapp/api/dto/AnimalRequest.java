@@ -11,7 +11,7 @@ public record AnimalRequest(
         @DecimalMin(value = "0.1", message = "Invalid value for weight")
         double weight,
 
-        @Min(value = 0, message = "Invalid value for age")
+        @Min(value = 1, message = "Invalid value for age")
         int ageInYear,
 
         @NotBlank(message = "Color is mandatory")

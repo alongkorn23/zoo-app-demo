@@ -7,8 +7,6 @@ import demo.zooapp.domain.Animal;
 import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.service.ZooManagementService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/zoo")
 public class ZooManagementController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ZooManagementController.class);
 
     private final ZooManagementService zooManagementService;
 
@@ -50,8 +46,6 @@ public class ZooManagementController {
             Animal animal = zooManagementService.feedAnimal(id, feedAnimalRequest.foodWeight());
             return ResponseEntity.ok(AnimalResponse.from(animal));
         } catch (AnimalNotFoundException e) {
-            String errorMessage = String.format("Could not feed animal. Cause: %s", e.getMessage());
-            logger.error(errorMessage);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
@@ -62,8 +56,6 @@ public class ZooManagementController {
             zooManagementService.deleteAnimalById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (AnimalNotFoundException e) {
-            String errorMessage = String.format("Could not delete animal. Cause: %s", e.getMessage());
-            logger.error(errorMessage);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }

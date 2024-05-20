@@ -114,7 +114,7 @@ class ZooManagementControllerTest {
 
 
     @Test
-    void feedAnimal_returns_not_found_status_when_animalNotFoundException_is_throw() throws Exception {
+    void feedAnimal_returns_not_found_status_when_animal_not_exists() throws Exception {
         UUID id = TestHelper.TEST_UUID;
         FeedAnimalRequest feedAnimalRequest = new FeedAnimalRequest(10);
         Mockito.when(zooManagementService.feedAnimal(id, feedAnimalRequest.foodWeight())).thenThrow(new AnimalNotFoundException("Animal not found"));
@@ -133,7 +133,7 @@ class ZooManagementControllerTest {
     }
 
     @Test
-    void deleteAnimal_returns_not_found_status_when_animalNotFoundException_is_throw() throws Exception {
+    void deleteAnimal_returns_not_found_status_when_animal_not_exists() throws Exception {
         UUID id = TestHelper.TEST_UUID;
         Mockito.doThrow(new AnimalNotFoundException("Animal not found")).when(zooManagementService).deleteAnimalById(id);
         mockMvc.perform(delete("/zoo/animal/{id}", id)).andExpect(status().isNotFound());

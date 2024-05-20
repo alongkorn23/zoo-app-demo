@@ -2,12 +2,15 @@ package demo.zooapp.service;
 
 import demo.zooapp.api.dto.AnimalRequest;
 import demo.zooapp.domain.Animal;
+import demo.zooapp.domain.AnimalSpecification;
 import demo.zooapp.entity.AnimalEntity;
 import demo.zooapp.exception.AnimalNotFoundException;
+import demo.zooapp.model.SearchCriteria;
 import demo.zooapp.repository.ZooRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +70,13 @@ public class ZooManagementServiceImpl implements ZooManagementService {
         AnimalEntity updatedAnimalEntity = zooRepository.save(animalEntity);
         logger.info("Animal with id {} was successfully fed with food", updatedAnimalEntity.getId());
         return Animal.from(updatedAnimalEntity);
+    }
+
+    @Override
+    public List<Animal> searchAnimals(SearchCriteria searchCriteria) {
+        AnimalSpecification spec = new AnimalSpecification(searchCriteria);
+        List<AnimalEntity> animalEntities = zooRepository.findAll(Specification.where(spec));
+        return animalEntities.stream().map(Animal::from).toList();
     }
 
     private AnimalEntity saveAnimal(AnimalRequest animalRequest) {

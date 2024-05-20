@@ -3,6 +3,7 @@ package demo.zooapp.api;
 import demo.zooapp.api.dto.AnimalRequest;
 import demo.zooapp.api.dto.AnimalResponse;
 import demo.zooapp.api.dto.FeedAnimalRequest;
+import demo.zooapp.api.dto.SearchAnimalRequest;
 import demo.zooapp.domain.Animal;
 import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.service.ZooManagementService;
@@ -38,6 +39,12 @@ public class ZooManagementController {
     ResponseEntity<AnimalResponse> createAnimal(@RequestBody @Valid AnimalRequest animalRequest) {
         Animal animal = zooManagementService.createAnimal(animalRequest);
         return ResponseEntity.ok(AnimalResponse.from(animal));
+    }
+
+    @PostMapping("/search/animals")
+    ResponseEntity<List<AnimalResponse>> searchAnimals(@RequestBody @Valid SearchAnimalRequest searchAnimalRequest) {
+        List<Animal> animals = zooManagementService.searchAnimals(searchAnimalRequest.searchCriteria());
+        return ResponseEntity.ok(animals.stream().map(AnimalResponse::from).toList());
     }
 
     @PutMapping("/feed/animal/{id}")

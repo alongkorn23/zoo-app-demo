@@ -1,8 +1,10 @@
 package demo.zooapp.helper;
 
 import demo.zooapp.api.dto.AnimalRequest;
+import demo.zooapp.api.dto.SearchAnimalRequest;
 import demo.zooapp.domain.Animal;
 import demo.zooapp.entity.AnimalEntity;
+import demo.zooapp.model.SearchCriteria;
 
 import java.util.UUID;
 
@@ -42,5 +44,10 @@ public class TestHelper {
                 "black",
                 "male",
                 "Tiger");
+    }
+
+    public static SearchAnimalRequest createSearchAnimalRequest(String key, String value) {
+        SearchCriteria searchCriteria = new SearchCriteria(key, value);
+        return new SearchAnimalRequest(searchCriteria);
     }
 }

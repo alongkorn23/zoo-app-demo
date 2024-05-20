@@ -2,10 +2,13 @@ package demo.zooapp.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import demo.zooapp.api.dto.AnimalRequest;
+import demo.zooapp.api.dto.AnimalResponse;
 import demo.zooapp.api.dto.FeedAnimalRequest;
+import demo.zooapp.api.dto.SearchAnimalRequest;
 import demo.zooapp.domain.Animal;
 import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.helper.TestHelper;
+import demo.zooapp.model.SearchCriteria;
 import demo.zooapp.service.ZooManagementService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,7 +17,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -95,8 +100,8 @@ class ZooManagementControllerTest {
         FeedAnimalRequest feedAnimalRequest = new FeedAnimalRequest(10);
         Mockito.when(zooManagementService.feedAnimal(id, feedAnimalRequest.foodWeight())).thenReturn(animal);
         mockMvc.perform(put("/zoo/feed/animal/{id}", id).
-                contentType(MediaType.APPLICATION_JSON_VALUE).
-                content(objectMapper.writeValueAsString(feedAnimalRequest))).
+                        contentType(MediaType.APPLICATION_JSON_VALUE).
+                        content(objectMapper.writeValueAsString(feedAnimalRequest))).
                 andExpect(status().isOk());
     }
 
@@ -139,4 +144,18 @@ class ZooManagementControllerTest {
         mockMvc.perform(delete("/zoo/animal/{id}", id)).andExpect(status().isNotFound());
     }
 
+    @Test
+    void searchAnimals_returns_ok_status() throws Exception {
+        Animal animal = TestHelper.createAnimal();
+        SearchAnimalRequest searchAnimalRequest = TestHelper.createSearchAnimalRequest("name", "Lulu");
+        Mockito.when(zooManagementService.searchAnimals(any(SearchCriteria.class))).thenReturn(List.of(animal));
+        MvcResult result = mockMvc.perform(post("/zoo/search/animals").
+                        contentType(MediaType.APPLICATION_JSON_VALUE).
+                        content(objectMapper.writeValueAsString(searchAnimalRequest)))
+                .andExpect(status().isOk())
+                .andReturn();
+        String actual = result.getResponse().getContentAsString();
+        List<AnimalResponse> expectedAnimalResponse = List.of(AnimalResponse.from(animal));
+        assertEquals(objectMapper.writeValueAsString(expectedAnimalResponse), actual);
+    }
 }

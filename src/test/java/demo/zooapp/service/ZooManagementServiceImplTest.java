@@ -5,6 +5,7 @@ import demo.zooapp.domain.Animal;
 import demo.zooapp.entity.AnimalEntity;
 import demo.zooapp.exception.AnimalNotFoundException;
 import demo.zooapp.helper.TestHelper;
+import demo.zooapp.model.SearchCriteria;
 import demo.zooapp.repository.ZooRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -86,6 +89,14 @@ class ZooManagementServiceImplTest {
 
     }
 
-
-
+    @Test
+    void searchAnimals_returns_animal_list() {
+        AnimalEntity animalEntity1 = TestHelper.createAnimalEntity();
+        List<Animal> expectedAnimals = List.of(Animal.from(animalEntity1));
+        when(zooRepository.findAll(any(Specification.class))).thenReturn(List.of(animalEntity1));
+        List<Animal> actualAnimals = zooManagementServiceImpl.searchAnimals(any(SearchCriteria.class));
+        assertNotNull(actualAnimals);
+        assertEquals(1, actualAnimals.size());
+        Assertions.assertIterableEquals(expectedAnimals, actualAnimals);
+    }
 }

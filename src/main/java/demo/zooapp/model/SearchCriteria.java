@@ -6,10 +6,10 @@ public record SearchCriteria(String key, String value) {
 
     public SearchCriteria {
         if (key.isBlank()) {
-            throw new SearchCriteriaException("Invalid value. Key cannot be blank.");
+            throw new SearchCriteriaException("Invalid value. Key can not be blank.");
         }
         if (value.isBlank()) {
-            throw new SearchCriteriaException("Invalid value. Value cannot be blank.");
+            throw new SearchCriteriaException("Invalid value. Value can not be blank.");
         }
     }
 

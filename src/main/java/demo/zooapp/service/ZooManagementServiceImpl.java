@@ -58,7 +58,7 @@ public class ZooManagementServiceImpl implements ZooManagementService {
     }
 
     @Override
-    public Animal feedAnimal(UUID id, double foodWeight) throws AnimalNotFoundException {
+    public synchronized Animal feedAnimal(UUID id, double foodWeight) throws AnimalNotFoundException {
         AnimalEntity animalEntity = zooRepository.findById(id).orElseThrow(() -> {
                     String errorMessage = String.format("Could not feed animal. Animal with id %s not found", id);
                     logger.error(errorMessage);
